@@ -1,0 +1,24 @@
+
+services:
+  frontend:
+    image: devtrack
+    ports:
+      -8080:80
+
+  backend:
+
+    image: app_backend
+    ports:
+      -4321:4321
+
+  database:
+    container_name: app_mysql
+    image: mysql:8
+    ports:
+      -3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: value
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+
