@@ -1,18 +1,19 @@
 
 services:
   frontend:
+    container_name: web
     image: devtrack
     ports:
       -8080:80
 
   backend:
-
+    container_name: server
     image: app_backend
     ports:
       -4321:4321
 
   database:
-    container_name: app_mysql
+    container_name: app_mysql2
     image: mysql:8
     ports:
       -3306:3306
