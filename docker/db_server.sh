@@ -1,4 +1,4 @@
-# postgresql
+# postgresql Container
 docker run -d \
   --name my_postgres_alt \
   -e POSTGRES_USER=appuser \
@@ -8,13 +8,11 @@ docker run -d \
   -v pgdata_alt:/var/lib/postgresql/data \
   postgres:16
 
+# Run query
 docker exec -it my_postgres_alt psql -U appuser -d myappdb
+# DB_URL=postgresql://appuser:secret123@localhost:5433/myappdb
 
-# postgresql://appuser:secret123@localhost:5433/myappdb
-
-
-# mysql
-
+# MySql Container
 docker run -d \
   --name my_mysql_alt \
   -e MYSQL_ROOT_PASSWORD=rootpass \
@@ -25,5 +23,6 @@ docker run -d \
   -p 3307:3306 \
   -v mysqldata_alt:/var/lib/mysql \
   mysql:8
-
-docker exec -it my_mysql_alt mysql -u appuser -p -D myappdb
+# Run query
+docker exec -it my_mysql_alt mysql -u appuser -p
+# DB_URL=mysql://username:password@localhost:3306/dbname

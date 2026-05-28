@@ -1,4 +1,3 @@
-
 sudo apt install docker.io util-linux-extra -y
 sudo systemctl start docker
 sudo systemctl enable docker

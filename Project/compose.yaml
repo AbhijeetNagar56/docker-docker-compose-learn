@@ -11,6 +11,15 @@ services:
     image: app_backend
     ports:
       -4321:4321
+    healthcheck:
+      test: ["curl", "https://localhost:4321/api"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+    depends_on:
+      - serviceName
+
 
   database:
     container_name: app_mysql2
@@ -21,5 +30,12 @@ services:
       MYSQL_ROOT_PASSWORD: value
     volumes:
       - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["psql", "postgres"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+    
 
 

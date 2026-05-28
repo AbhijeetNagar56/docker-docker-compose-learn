@@ -25,5 +25,5 @@ services:
       retries: 3
     restart: unless-stopped
 
-
-db (Postgres) ── healthy? ──▶ backend (Node.js) ── healthy? ──▶ frontend (Nginx)
+# restart types no, always, unless-stopped, on-failure
+# db (Postgres) ── healthy? ──▶ backend (Node.js) ── healthy? ──▶ frontend (Nginx)
