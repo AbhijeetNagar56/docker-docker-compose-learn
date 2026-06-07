@@ -17,7 +17,7 @@ const __dirname = path.dirname(new URL(import.meta.url).pathname);
 // Middleware to parse JSON bodies
 app.use(express.json());
 app.use(cors({
-    origin: '*'// allow from any origin, you can specify your frontend URL here
+    origin: "*" // allow from any origin, you can specify your frontend URL here
 }));
 
 

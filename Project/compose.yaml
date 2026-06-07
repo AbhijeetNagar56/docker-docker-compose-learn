@@ -1,41 +1,49 @@
+version: "3.9"
 
 services:
   frontend:
     container_name: web
-    image: devtrack
+    image: ghcr.io/abhijeetnagar56/devtrack-frontend
     ports:
-      -8080:80
+      - "8080:80"
+    environment:
+      - BACKEND_URL=http://backend:4321/api
+    depends_on:
+      backend:
+        condition: service_healthy
 
   backend:
     container_name: server
-    image: app_backend
+    image: ghcr.io/abhijeetnagar56/devtrack-backend
     ports:
-      -4321:4321
+      - "4321:4321"
+    environment:
+      - DB=mysql://root:abc123@database:3306/appdb
+      - FRONTEND_URL=http://frontend:8080
     healthcheck:
-      test: ["curl", "https://localhost:4321/api"]
-      interval: 1m30s
-      timeout: 30s
+      test: ["CMD", "curl", "-f", "http://backend:4321/api"]
+      interval: 30s
+      timeout: 10s
       retries: 5
       start_period: 30s
     depends_on:
-      - serviceName
-
+      database:
+        condition: service_healthy
 
   database:
     container_name: app_mysql2
     image: mysql:8
     ports:
-      -3306:3306
+      - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: value
+      MYSQL_ROOT_PASSWORD: abc123
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:
-      test: ["psql", "postgres"]
-      interval: 1m30s
-      timeout: 30s
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 30s
+      timeout: 10s
       retries: 5
-      start_period: 30s
-    
 
-
+volumes:
+  mysql_data:
