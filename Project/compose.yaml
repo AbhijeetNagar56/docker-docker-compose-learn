@@ -3,7 +3,7 @@ version: "3.9"
 services:
   frontend:
     container_name: web
-    image: ghcr.io/abhijeetnagar56/devtrack-frontend
+    image: devtrack-frontend
     ports:
       - "8080:80"
     environment:
@@ -14,14 +14,14 @@ services:
 
   backend:
     container_name: server
-    image: ghcr.io/abhijeetnagar56/devtrack-backend
+    image: devtrack-backend
     ports:
       - "4321:4321"
     environment:
       - DB=mysql://root:abc123@database:3306/appdb
-      - FRONTEND_URL=http://frontend:8080
+      - FRONTEND_URL=http://frontend:80
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://backend:4321/api"]
+      test: ["CMD", "curl", "-f", "http://localhost:4321/api/dbtest"]
       interval: 30s
       timeout: 10s
       retries: 5
