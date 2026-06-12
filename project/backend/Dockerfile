@@ -2,7 +2,7 @@ FROM node:18-alpine
 WORKDIR /app
 COPY package.json ./
 RUN npm install
-ENV DB=mysql://root:abc123@172.19.0.2:3306/appdb
+ENV DB=mysql://user:password@host_ip:host_port/db_name
 ENV FRONTEND_URL=http://localhost:5173
 COPY . .
 EXPOSE 4321

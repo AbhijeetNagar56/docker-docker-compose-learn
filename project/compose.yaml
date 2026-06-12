@@ -18,10 +18,10 @@ services:
     ports:
       - "4321:4321"
     environment:
-      - DB=mysql://root:abc123@database:3306/appdb
+      - DB=mysql://root:password@database:3306/db_name
       - FRONTEND_URL=http://frontend:80
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:4321/api/dbtest"]
+      test: ["CMD", "curl", "-f", "http://localhost:4321/api/health"]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -36,7 +36,7 @@ services:
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: abc123
+      MYSQL_ROOT_PASSWORD: password
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:
