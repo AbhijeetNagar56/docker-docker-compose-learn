@@ -3,7 +3,7 @@ version: "3.9"
 services:
   frontend:
     container_name: web
-    image: devtrack-frontend
+    image: ghcr.io/abhijeetnagar56/devtrack-frontend:latest
     ports:
       - "8080:80"
     environment:
@@ -14,12 +14,17 @@ services:
 
   backend:
     container_name: server
-    image: devtrack-backend
+    image: ghcr.io/abhijeetnagar56/devtrack-backend:latest
     ports:
       - "4321:4321"
     environment:
-      - DB=mysql://root:password@database:3306/db_name
-      - FRONTEND_URL=http://frontend:80
+      - FRONTEND_URL=http://frontend:8080
+      - DB_HOST=database
+      - DB_PORT=3306
+      - DB_NAME=appdb
+      - DB_USER=root
+    secrets:
+      - mysql_root_password
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:4321/api/health"]
       interval: 30s
@@ -30,20 +35,28 @@ services:
       database:
         condition: service_healthy
 
+
   database:
     container_name: app_mysql2
     image: mysql:8
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: password
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    secrets:
+      - mysql_root_password
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 30s
       timeout: 10s
       retries: 5
+
+secrets:
+  mysql_root_password:
+    file: ./mysql_root_password.txt
 
 volumes:
   mysql_data:
